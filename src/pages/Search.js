@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
+import Header from './Header';
 
 class Search extends React.Component {
   constructor() {
@@ -24,6 +25,7 @@ class Search extends React.Component {
     if (loading) return <Loading />;
     return (
       <div data-testid="page-search">
+        <Header />
         <Link to="/search">Search</Link>
       </div>
     );
