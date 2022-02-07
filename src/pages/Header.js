@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
-import Search from './Search';
-import Favorites from './Favorites';
 import Loading from './Loading';
 
 class Header extends React.Component {
