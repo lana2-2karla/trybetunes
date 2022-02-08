@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import Header from './Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
-import Album from './Album';
+import Card from './Card';
 
 class Search extends React.Component {
   constructor() {
@@ -39,16 +39,14 @@ class Search extends React.Component {
     event.preventDefault();
     const { valueInput } = this.state;
     const ArrInfoArtist = await searchAlbumsAPI(valueInput);
-    console.log(ArrInfoArtist);
     this.setState({
       artist: ArrInfoArtist,
-      valueInput: '',
     });
+    document.querySelector('#input').value = '';
   }
 
   render() {
     const { loading, disable, artist, valueInput } = this.state;
-    console.log(artist);
     if (loading) return <Loading />;
     return (
       <div data-testid="page-search">
@@ -60,6 +58,7 @@ class Search extends React.Component {
               onChange={ this.handleChange }
               type="text"
               data-testid="search-artist-input"
+              id="input"
             />
             <button
               onClick={ this.handleClick }
@@ -74,13 +73,9 @@ class Search extends React.Component {
         </form>
         <div>
           {artist.length !== 0
-          && (
-            <p>
-              {`Resultado de álbuns de:
-            ${valueInput}`}
-            </p>
-          )}
-          {artist.map((card, i) => <Album key={ i } card={ card } />)}
+            ? <p>{`Resultado de álbuns de: ${valueInput}`}</p>
+            : <p>Nenhum álbum foi encontrado</p>}
+          {artist.map((card, i) => <Card key={ i } cardzinho={ card } i={ i + 1 } />)}
         </div>
       </div>
     );
