@@ -4,6 +4,7 @@ import Loading from './Loading';
 import Header from './Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Card from './Card';
+import Album from './Album';
 
 class Search extends React.Component {
   constructor() {
@@ -75,7 +76,9 @@ class Search extends React.Component {
           {artist.length !== 0
             ? <p>{`Resultado de álbuns de: ${valueInput}`}</p>
             : <p>Nenhum álbum foi encontrado</p>}
-          {artist.map((card, i) => <Card key={ i } cardzinho={ card } i={ i + 1 } />)}
+          {artist.map((card, i) => (
+            <Card key={ i } cardzinho={ card } i={ i + 1 } />
+          ))}
         </div>
       </div>
     );
