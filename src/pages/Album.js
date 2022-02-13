@@ -10,7 +10,9 @@ class Album extends React.Component {
     super();
     this.state = {
       musics: [],
+      loading: false,
     };
+    this.setLoading = this.setLoading.bind(this);
   }
 
   async componentDidMount() {
@@ -23,10 +25,17 @@ class Album extends React.Component {
     });
   }
 
+  setLoading() {
+    const SECONDS = 1000;
+    this.setState({ loading: true });
+    setTimeout(() => this.setState({ loading: false }), SECONDS);
+  }
+
   render() {
-    const { musics } = this.state;
-    if (musics.length === 0) return <Loading />;
+    const { musics, loading } = this.state;
+    if (musics.length === 0 || loading) return <Loading />;
     const { artworkUrl100, collectionName, artistName } = musics[0];
+    if (loading) return <Loading />;
     return (
       <div data-testid="page-album">
         <Header />
@@ -42,6 +51,7 @@ class Album extends React.Component {
               <MusicCard
                 key={ song.trackId }
                 song={ song }
+                setLoading={ this.setLoading }
               />))}
         </div>
       </div>
@@ -50,8 +60,6 @@ class Album extends React.Component {
 }
 
 Album.propTypes = {
-  match: propTypes.string.isRequired,
-  id: propTypes.string.isRequired,
-  params: propTypes.string.isRequired,
+  match: propTypes.shape().isRequired,
 };
 export default Album;

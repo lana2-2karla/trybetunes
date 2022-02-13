@@ -4,7 +4,6 @@ import Loading from './Loading';
 import Header from './Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Card from './Card';
-import Album from './Album';
 
 class Search extends React.Component {
   constructor() {
