@@ -19,31 +19,34 @@ class Album extends React.Component {
     const { match } = this.props;
     const { params } = match;
     const { id } = params;
+    this.setState({ loading: true });
     const listMusic = await getMusics(id);
     this.setState({
       musics: listMusic,
+      loading: false,
     });
   }
 
   setLoading() {
-    const SECONDS = 1000;
+    const SECONDS = 1;
     this.setState({ loading: true });
     setTimeout(() => this.setState({ loading: false }), SECONDS);
   }
 
   render() {
     const { musics, loading } = this.state;
-    if (musics.length === 0 || loading) return <Loading />;
-    const { artworkUrl100, collectionName, artistName } = musics[0];
-    if (loading) return <Loading />;
     return (
       <div data-testid="page-album">
         <Header />
         <h1>Album</h1>
         <div>
-          <img src={ artworkUrl100 } alt={ collectionName } />
-          <span data-testid="artist-name">{ artistName }</span>
-          <span data-testid="album-name">{ collectionName }</span>
+          { (musics.length === 0 || loading) ? <Loading />
+            : (
+              <>
+                <img src={ musics[0].artworkUrl100 } alt={ musics[0].collectionName } />
+                <span data-testid="artist-name">{ musics[0].artistName }</span>
+                <span data-testid="album-name">{ musics[0].collectionName }</span>
+              </>)}
         </div>
         <div>
           { musics.filter(({ kind }) => kind === 'song')
